@@ -1,7 +1,6 @@
 # subscriptions/admin.py
 
 from django.contrib import admin
-# from subscriptions.models import StripeCustomer
+from subscriptions.models import Subscription
 
-
-# admin.site.register(StripeCustomer)
+admin.site.register(Subscription)

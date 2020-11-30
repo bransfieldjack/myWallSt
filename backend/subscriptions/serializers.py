@@ -8,7 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'subscriptions']
+        fields = ['id', 'username', 'password', 'subscriptions']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = super(UserSerializer, self).create(validated_data)   # Inherit parent class methods and hash password. 
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 class SubscriptionSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')

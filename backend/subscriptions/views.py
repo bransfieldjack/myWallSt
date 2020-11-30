@@ -12,8 +12,14 @@ from rest_framework.reverse import reverse
 def api_root(request, format=None):
     return Response({
         'users': reverse('user-list', request=request, format=format),
-        'subscriptions': reverse('subscriptions-list', request=request, format=format)
+        'subscriptions': reverse('subscriptions-list', request=request, format=format),
+        'register': reverse('register', request=request, format=format),
     })
+
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
