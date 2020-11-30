@@ -7,9 +7,17 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
+from subscriptions.stripe_payment import StripeClass
+
 
 @api_view(['GET'])
 def api_root(request, format=None):
+
+    # customer = StripeClass.createCustomer()
+    subscription = StripeClass.createSubscription()
+    # paymentUpdate = StripeClass.updatePaymentMethod()
+    print(subscription)
+
     return Response({
         'users': reverse('user-list', request=request, format=format),
         'subscriptions': reverse('subscriptions-list', request=request, format=format),
@@ -35,6 +43,11 @@ class SubscriptionsList(generics.ListCreateAPIView):
     serializer_class = SubscriptionSerializer
 
     def perform_create(self, serializer):   # associating the user that created the subscription (perform create allows modification of how instance is saved - handy)
+
+        print("printing request:")
+        print(self.request.user)
+        print(self.request.data)
+
         serializer.save(owner=self.request.user)
 
 class SubscriptionsDetail(generics.RetrieveUpdateDestroyAPIView):
