@@ -7,17 +7,31 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from subscriptions.stripe_payment import StripeClass
+from subscriptions.stripe_payment import StripeClass, webHooks
 
+
+@api_view(['POST'])
+def payment(request, format=None):
+    _stripe = StripeClass(request.data)
+    _stripe.createPaymentMethod()
+    _stripe.createCustomer()
+    _stripe.updatePaymentMethod()
+
+    sub = _stripe.createSubscription()
+    # print(sub)
+
+    return Response(sub)
+
+@api_view(['POST'])
+def hooks(request, format=None):
+    res = webHooks(request)
+    return res
 
 @api_view(['GET'])
 def api_root(request, format=None):
-
-    # customer = StripeClass.createCustomer()
-    subscription = StripeClass.createSubscription()
-    # paymentUpdate = StripeClass.updatePaymentMethod()
-    print(subscription)
-
+    """
+    Root API view
+    """
     return Response({
         'users': reverse('user-list', request=request, format=format),
         'subscriptions': reverse('subscriptions-list', request=request, format=format),
@@ -25,30 +39,38 @@ def api_root(request, format=None):
     })
 
 class UserCreate(generics.CreateAPIView):
+    """
+    Create/register a new user
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [permissions.AllowAny]
 
 class UserList(generics.ListAPIView):
+    """
+    Return all registered users
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class UserDetail(generics.RetrieveAPIView):
+    """
+    Get single user, delete
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class SubscriptionsList(generics.ListCreateAPIView):
+class SubscriptionsList(generics.ListAPIView):
+    """
+    Returns a list of subscriptions and their subscribers (user).
+    Create new subscription, extended with 'perform_create' to append verified user to the subscription.
+    """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
 
-    def perform_create(self, serializer):   # associating the user that created the subscription (perform create allows modification of how instance is saved - handy)
-
-        print("printing request:")
-        print(self.request.user)
-        print(self.request.data)
-
-        serializer.save(owner=self.request.user)
+    # def perform_create(self, serializer):   # associating the user that created the subscription (perform create allows modification of how instance is saved - handy)
+    #     return Response(status=200)
 
 class SubscriptionsDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
