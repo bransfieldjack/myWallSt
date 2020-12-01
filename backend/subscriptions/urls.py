@@ -14,7 +14,6 @@ urlpatterns = [
     path('account/register', views.UserCreate.as_view(), name='register'),
     path('', views.api_root),
     path('hooks/', views.hooks),
-
     path('payment/', views.payment),
 ]
 

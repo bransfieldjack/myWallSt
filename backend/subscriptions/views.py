@@ -3,13 +3,15 @@ from subscriptions.serializers import SubscriptionSerializer, UserSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework import permissions
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from subscriptions.stripe_payment import StripeClass, webHooks
 
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])  # Token is required
 def payment(request, format=None):
     """
     Process payment, save customer and payment info on success
@@ -20,14 +22,14 @@ def payment(request, format=None):
     stripe_.updatePaymentMethod()
     sub = stripe_.createSubscription()
     to_save = {
-        "user": sub['customer']['email'],
+        "username": request.user,
         "paymentMethod": sub['payment_method']['card']['brand'],
-        "status": "successful", #sub['subscription']['plan']['active'],
+        "status": str(sub['subscription']['plan']['active']),
         "priceId": sub['subscription']['items']['data'][0]['price']['id']
     }
     serializer = SubscriptionSerializer(data=to_save)
     if serializer.is_valid():
-        serializer.save(owner=to_save['user'])
+        serializer.save(owner=to_save['username'])
         return Response(serializer.data)
     return Response(serializer.errors)
 
