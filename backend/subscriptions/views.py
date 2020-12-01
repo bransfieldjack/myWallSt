@@ -53,13 +53,6 @@ def api_root(request, format=None):
         'register': reverse('register', request=request, format=format),
     })
 
-# @api_view(['POST', 'GET'])
-# def auth_token(request, format=None):
-#     print(request.user)
-#     token = Token.objects.create(user=request.user)
-#     print(token.key)
-#     return Response(token)
-
 class UserCreate(generics.CreateAPIView):
     """
     Create/register a new user
