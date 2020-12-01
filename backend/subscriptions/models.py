@@ -7,8 +7,8 @@ class Subscription(models.Model):
     purchaseDate = models.DateTimeField(auto_now_add=True)
     paymentMethod = models.CharField(max_length=100, blank=True, default='')
     status = models.CharField(max_length=100, blank=True, default='')
-    priceId = models.IntegerField(blank=False, null=False)
-
+    priceId = models.CharField(max_length=100, blank=False)
+    
     class Meta:
         ordering = ['purchaseDate']
 

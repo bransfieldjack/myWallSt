@@ -6,24 +6,36 @@ from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-
 from subscriptions.stripe_payment import StripeClass, webHooks
 
 
 @api_view(['POST'])
 def payment(request, format=None):
-    _stripe = StripeClass(request.data)
-    _stripe.createPaymentMethod()
-    _stripe.createCustomer()
-    _stripe.updatePaymentMethod()
-
-    sub = _stripe.createSubscription()
-    # print(sub)
-
-    return Response(sub)
+    """
+    Process payment, save customer and payment info on success
+    """
+    stripe_ = StripeClass(request.data)
+    stripe_.createPaymentMethod()
+    stripe_.createCustomer()
+    stripe_.updatePaymentMethod()
+    sub = stripe_.createSubscription()
+    to_save = {
+        "user": sub['customer']['email'],
+        "paymentMethod": sub['payment_method']['card']['brand'],
+        "status": "successful", #sub['subscription']['plan']['active'],
+        "priceId": sub['subscription']['items']['data'][0]['price']['id']
+    }
+    serializer = SubscriptionSerializer(data=to_save)
+    if serializer.is_valid():
+        serializer.save(owner=to_save['user'])
+        return Response(serializer.data)
+    return Response(serializer.errors)
 
 @api_view(['POST'])
 def hooks(request, format=None):
+    """
+    Handle incoming webhooks from stripe
+    """
     res = webHooks(request)
     return res
 
@@ -69,10 +81,10 @@ class SubscriptionsList(generics.ListAPIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
 
-    # def perform_create(self, serializer):   # associating the user that created the subscription (perform create allows modification of how instance is saved - handy)
-    #     return Response(status=200)
-
 class SubscriptionsDetail(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Single subscription detail
+    """
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer

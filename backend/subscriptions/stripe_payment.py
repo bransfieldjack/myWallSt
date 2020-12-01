@@ -11,6 +11,13 @@ endpoint_secret=env("ENDPOINT_SECRET")
 
 class StripeClass(object):
 
+    """
+    Stripe object:
+    Creates a payment method => creates the customer =>
+    updates the payment method with the customer ID => creates a subscription using
+    the customer ID and subscription ID. 
+    """
+
     def __init__(self, request):
         self._request = request
         self._PaymentMethod = None
@@ -56,7 +63,12 @@ class StripeClass(object):
                 {"price": price_id},
             ],
         )
-        return subscription
+        stripe_ = {
+            "customer": self._Customer,
+            "payment_method": self._PaymentMethod,
+            "subscription": subscription
+        }
+        return stripe_ #.status
 
 # ----------------------------------------------------------
 # Functions without class:
@@ -86,18 +98,13 @@ def webHooks(request):
     if event.type == 'customer.subscription.created':
         subscription = event.data.object # contains a stripe.PaymentIntent
         print('Customer subscription created')
-        print(type(subscription))
-        print(subscription)
-        return subscription
+        return HttpResponse(status=200)
+
     elif event.type == 'customer.subscription.updated':
         subscription = event.data.object # contains a stripe.PaymentMethod
         print('Customer subscription updated')
-        print(subscription)
-        return subscription
-    # ... handle other event types
-    else:
         return HttpResponse(status=200)
-        # print('Unhandled event type {}'.format(event.type))
 
     return HttpResponse(status=200)
+
 
