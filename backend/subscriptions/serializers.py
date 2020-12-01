@@ -1,6 +1,7 @@
-from rest_framework import serializers
-from subscriptions.models import Subscription
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
+from subscriptions.models import Subscription
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,4 +23,5 @@ class SubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscription
         fields = ['id', 'owner', 'purchaseDate', 'paymentMethod', 'status', 'priceId']
+    
     

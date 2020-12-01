@@ -1,12 +1,13 @@
-from subscriptions.models import Subscription
-from subscriptions.serializers import SubscriptionSerializer, UserSerializer
-from rest_framework import generics
 from django.contrib.auth.models import User
-from rest_framework import permissions
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework import generics, permissions
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
+from rest_framework.authtoken.models import Token
+
+from subscriptions.models import Subscription
+from subscriptions.serializers import SubscriptionSerializer, UserSerializer
 from subscriptions.stripe_payment import StripeClass, webHooks
 
 
@@ -51,6 +52,13 @@ def api_root(request, format=None):
         'subscriptions': reverse('subscriptions-list', request=request, format=format),
         'register': reverse('register', request=request, format=format),
     })
+
+# @api_view(['POST', 'GET'])
+# def auth_token(request, format=None):
+#     print(request.user)
+#     token = Token.objects.create(user=request.user)
+#     print(token.key)
+#     return Response(token)
 
 class UserCreate(generics.CreateAPIView):
     """

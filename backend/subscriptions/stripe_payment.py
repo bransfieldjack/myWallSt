@@ -1,5 +1,5 @@
-import stripe
 import environ
+import stripe
 from django.http import HttpResponse
 
 env = environ.Env()
@@ -68,7 +68,7 @@ class StripeClass(object):
             "payment_method": self._PaymentMethod,
             "subscription": subscription
         }
-        return stripe_ #.status
+        return stripe_
 
 # ----------------------------------------------------------
 # Functions without class:
