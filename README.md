@@ -3,6 +3,7 @@
  
 My Wall St DRF/Stripe API Payment Gateway
 
+- ***! In order to test webhooks received in response from the Stripe API I used the Stripe CLI tool for local dev !***
  
 ## Setup:
 
@@ -86,3 +87,25 @@ The payload structure (body) for the request:
 	"customer":  "bransfieldjack@gmail.com"
 }
 ````
+
+
+## Deployment:
+
+### Heroku:
+
+Procfile: 
+````
+web: gunicorn djangostripe.wsgi
+````
+Deploy:
+````
+git push -u heroku master
+````
+````
+heroku run python manage.py migrate --run-syncdb
+````
+https://my-wall-st-test.herokuapp.com/
+
+![bonus](https://media.giphy.com/media/KfSgzIWDrFe57CHw6z/giphy.gif)
+
+### AWS:
