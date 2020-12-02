@@ -70,3 +70,19 @@ Before you can submit a payment request for a stripe subscription, you will need
 With the generated token you can submit a payment request to the 'http://0.0.0.0:8000/payment/' endpoint:
 
 ![paymentEndpoint](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/paymentEndpoint.png)
+
+The payload structure (body) for the request:
+
+````
+{
+	"paymentMethod":  "mastercard",
+	"type":  "card",
+	"card":  {
+		"number":  "4242424242424242",
+		"exp_month":  11,
+		"exp_year":  2021,
+		"cvc":  "314"
+	},
+	"customer":  "bransfieldjack@gmail.com"
+}
+````

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import environ
+import django_heroku
 
 env = environ.Env()
 # reading .env file
@@ -150,3 +151,6 @@ STRIPE_PUBLISHABLE_KEY = env("STRIPE_PUBLISHABLE_KEY")
 STRIPE_SECRET_KEY = env("STRIPE_SECRET_KEY")
 STRIPE_PRICE_ID = env("STRIPE_PRICE_ID")
 ENDPOINT_SECRET = env("ENDPOINT_SECRET")
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
