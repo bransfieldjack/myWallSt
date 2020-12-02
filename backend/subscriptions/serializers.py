@@ -10,7 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'password', 'subscriptions']
-        extra_kwargs = {'password': {'write_only': True}}
+        extra_kwargs = {'password': {'write_only': True}}   # Hides password in API
 
     def create(self, validated_data):
         user = super(UserSerializer, self).create(validated_data)   # Inherit parent class methods and hash password. 

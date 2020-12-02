@@ -66,33 +66,16 @@ class ViewSetTestCase(APITestCase):
         self.assertEqual(response.data, serializer.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_create_user(self):
+    def test_create_user(self): # Create subscription & payment views are the same
+        data=json.dumps({'username': 'admin3','password': 'password2','subscriptions': [1]})
         response = client.post(
             reverse('register'),
-            data=json.dumps({
-                'username': 'admin',
-                'password': 'password1',
-                'subscriptions': [
-                    '1'
-                ]
-            }),
+            data,
             content_type='application/json'
         )
-        user = self.user
+        user = User.objects.create_user(username='admin2', password='password2')
         serializer = UserSerializer(user)
-        self.assertEqual(response.data, serializer.data)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-
-    # def test_payment(self):
-    #     self.test_setUp()
-    #     factory = APIRequestFactory()
-    #     user = User.objects.get(username='admin')
-    #     view = AccountDetail.as_view()
-
-    #     # Make an authenticated request to the view...
-    #     request = factory.get('/accounts/django-superstars/')
-    #     force_authenticate(request, user=user)
-    #     response = view(request)
+        self.assertEqual(response.status_code, 201)
 
         
         

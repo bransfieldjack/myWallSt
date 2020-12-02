@@ -9,7 +9,7 @@ price_id = env("STRIPE_PRICE_ID")
 stripe.api_key = env("STRIPE_SECRET_KEY")
 endpoint_secret=env("ENDPOINT_SECRET")
 
-class StripeClass(object):
+class StripeClass():
 
     """
     Stripe object:
@@ -23,6 +23,12 @@ class StripeClass(object):
         self._PaymentMethod = None
         self._Customer = None
 
+    def __repr__(self):
+        return "Customer: {}, Payment Method: {}".format(self._Customer, self._PaymentMethod)
+
+    def __str__(self):
+        return "Customer: {}, Payment Method: {}".format(self._Customer, self._PaymentMethod)
+    
     def createPaymentMethod(self):
         """
         Creates the payment method. 
