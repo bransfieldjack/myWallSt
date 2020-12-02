@@ -1,4 +1,6 @@
 # My Wall St DRF/Stripe API Payment Gateway 
+[![Build Status](https://travis-ci.com/bransfieldjack/myWallSt.svg?branch=master)](https://travis-ci.com/bransfieldjack/myWallSt)
+
 <br>
 
 ## Setup:
