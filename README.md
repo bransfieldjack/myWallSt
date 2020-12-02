@@ -1,6 +1,9 @@
-# My Wall St DRF/Stripe API Payment Gateway 
-<br>
 
+![](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/Screen+Shot+2020-12-02+at+1.50.51+pm.png)
+ 
+My Wall St DRF/Stripe API Payment Gateway
+
+ 
 ## Setup:
 
 ### Docker:
@@ -67,4 +70,3 @@ Before you can submit a payment request for a stripe subscription, you will need
 With the generated token you can submit a payment request to the 'http://0.0.0.0:8000/payment/' endpoint:
 
 ![paymentEndpoint](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/paymentEndpoint.png)
-
