@@ -1,2 +1,2 @@
-web: gunicorn subscriptions.wsgi --log-file -
+web: gunicorn djangostripe.wsgi
 
