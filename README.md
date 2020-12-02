@@ -3,7 +3,9 @@
  
 My Wall St DRF/Stripe API Payment Gateway
 
-- ***! In order to test webhooks received in response from the Stripe API I used the Stripe CLI tool for local dev !***
+Notes: 
+- *** In order to test webhooks received in response from the Stripe API I used the Stripe CLI tool for local dev ***
+- *** .env environment variables file should be placed in ./djangostripe folder ***
  
 ## Setup:
 
@@ -108,4 +110,29 @@ https://my-wall-st-test.herokuapp.com/
 
 ![bonus](https://media.giphy.com/media/KfSgzIWDrFe57CHw6z/giphy.gif)
 
-### AWS:
+### AWS ECS via Terraform:
+![tf](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/Screen+Shot+2020-12-02+at+3.07.35+pm.png)
+[Terraform](https://www.terraform.io/) is a platform agnostic IAC tool.
+Similar to travis/docker etc. it uses a declarative model instead of imperative scripting - you describe what you want the end result of your stack to look like, and then the tooling takes care of building it. 
+
+End result of stack build on AWS:
+
+````
+-   Networking:
+    -   VPC
+    -   Public and private subnets
+    -   Routing tables
+    -   Internet Gateway
+    -   Key Pairs
+-   Security Groups
+-   Load Balancers, Listeners, and Target Groups
+-   IAM Roles and Policies
+-   ECS:
+    -   Task Definition (with multiple containers)
+    -   Cluster
+    -   Service
+-   Launch Config and Auto Scaling Group
+-   RDS
+-   Health Checks and Logs
+
+````
