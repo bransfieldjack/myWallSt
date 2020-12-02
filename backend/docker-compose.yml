@@ -8,11 +8,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   web:
-    build: ./backend
-    command: python manage.py runserver 0.0.0.0:8000
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py migrate --run-syncdb && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./backend/volume:/code
+      - .:/code
     ports:
       - "8000:8000"
     depends_on:
       - db
+
+
+      

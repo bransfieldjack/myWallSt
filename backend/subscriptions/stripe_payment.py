@@ -3,8 +3,6 @@ import stripe
 from django.http import HttpResponse
 
 env = environ.Env()
-env.read_env() # reading .env file
-
 price_id = env("STRIPE_PRICE_ID")
 stripe.api_key = env("STRIPE_SECRET_KEY")
 endpoint_secret=env("ENDPOINT_SECRET")
