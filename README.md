@@ -1,6 +1,4 @@
 # My Wall St DRF/Stripe API Payment Gateway 
-[![Build Status](https://travis-ci.com/bransfieldjack/myWallSt.svg?branch=master)](https://travis-ci.com/bransfieldjack/myWallSt)
-
 <br>
 
 ## Setup:
@@ -49,3 +47,24 @@ Just remember to revert the database settings to use the sqlite db:
 }
 ````
 <hr>
+
+## Usage:
+
+### Auth:
+Before you can use the API, you will need to add yourself as a user, and generate a token for communication with the payments endpoint:
+
+- **From the browsable API**:
+	- ![userCreate](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/userCreate.png)
+
+- **From postman**: 
+	- ![fromPostman](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/fromPostman.png)
+
+### API:
+Before you can submit a payment request for a stripe subscription, you will need to generate an auth token  (postman) using the newly registered account:
+
+![authToken](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/authToken.png)
+
+With the generated token you can submit a payment request to the 'http://0.0.0.0:8000/payment/' endpoint:
+
+![paymentEndpoint](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/paymentEndpoint.png)
+
