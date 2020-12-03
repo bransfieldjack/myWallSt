@@ -2,6 +2,8 @@ __pycache__
 .DS_Store
 *.pyc
 *.db
+*.tfstate.backup
+*.tfstate
 *.sqlite
 *.sqlite3
 *~
