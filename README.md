@@ -1,6 +1,6 @@
 ![](https://my-wall-st-test.s3-eu-west-1.amazonaws.com/Screen+Shot+2020-12-02+at+1.50.51+pm.png)
 
-[![Build Status](https://travis-ci.org/bransfieldjack/myWallSt.svg?branch=master)](https://travis-ci.org/bransfieldjack/myWallSt)
+[![Build Status](https://travis-ci.com/bransfieldjack/myWallSt.svg?branch=master)](https://travis-ci.com/bransfieldjack/myWallSt)
 
 My Wall St DRF/Stripe API Payment Gateway
 
